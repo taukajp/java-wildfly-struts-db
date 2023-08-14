@@ -1,0 +1,18 @@
+{
+  "args.override.boolean": "false",
+  "args.program.override.string": "-mp \"/home/vscode/.rsp/redhat-server-connector/runtimes/installations/wildfly-23.0.2.Final/modules\" org.jboss.as.standalone -b localhost --server-config=standalone.xml",
+  "args.vm.override.string": "\"-Dprogram.name=rsp:wildfly-23.0.2.Final\" -Xms64m -Xmx512m -Dorg.jboss.resolver.warning=true -Djava.net.preferIPv4Stack=true -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true \"-Dorg.jboss.boot.log.file=/home/vscode/.rsp/redhat-server-connector/runtimes/installations/wildfly-23.0.2.Final/standalone/log/boot.log\" \"-Dlogging.configuration=file:/home/vscode/.rsp/redhat-server-connector/runtimes/installations/wildfly-23.0.2.Final/standalone/configuration/logging.properties\" \"-Djboss.home.dir=/home/vscode/.rsp/redhat-server-connector/runtimes/installations/wildfly-23.0.2.Final\" -Dorg.jboss.logmanager.nocolor=true -Djboss.bind.address.management=localhost --add-exports=java.base/sun.nio.ch=ALL-UNNAMED --add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED --add-exports=jdk.unsupported/sun.reflect=ALL-UNNAMED --add-modules=java.se -Djboss.http.port=\"8080\"",
+  "id": "wildfly-23.0.2.Final",
+  "id-set": "true",
+  "jboss.server.host": "localhost",
+  "jboss.server.port": "8080",
+  "org.jboss.tools.rsp.server.typeId": "org.jboss.ide.eclipse.as.wildfly.230",
+  "server.autopublish.enabled": "true",
+  "server.autopublish.inactivity.limit": "1000",
+  "server.home.dir": "/home/vscode/.rsp/redhat-server-connector/runtimes/installations/wildfly-23.0.2.Final",
+  "server.timeout.shutdown": "120000",
+  "server.timeout.startup": "120000",
+  "wildfly.publish.restart.pattern": "\\.class$|\\.jar$",
+  "wildfly.server.config.file": "standalone.xml",
+  "wildfly.server.deploy.directory": ""
+}
