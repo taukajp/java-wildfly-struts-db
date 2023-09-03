@@ -12,6 +12,7 @@ WORKDIR /workspaces/${APP_NAME}
 ARG SERVERS_DIR=/home/vscode/.rsp/redhat-server-connector/runtimes/installations
 ARG WILDFLY_VER=23.0.2.Final
 ARG RSP_SERVERS_DIR=/home/vscode/.rsp/redhat-server-connector/servers
+ARG PG_DRIVER_VER=42.6.0
 
 ENV LANG=C.UTF-8 \
     TZ=Asia/Tokyo
@@ -20,6 +21,7 @@ ENV LANG=C.UTF-8 \
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
     # Install packages
+    postgresql-client \
     # Clean up
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 

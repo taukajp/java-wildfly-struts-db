@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+<!--
+  - This file is included by the struts.xml file as an example
+  - of how to break up the configuration file into multiple files.
+-->
+<struts>
+
+    <package name="db" namespace="/db" extends="struts-default">
+
+        <action name="index" class="com.example.app.db.ItemAction" method="index">
+            <result>/WEB-INF/db/item.jsp</result>
+        </action>
+
+        <action name="create" class="com.example.app.db.ItemAction" method="create">
+            <result type="redirectAction">index</result>
+            <result name="input">/WEB-INF/db/item.jsp</result>
+        </action>
+
+    </package>
+
+</struts>

@@ -8,6 +8,7 @@
     <constant name="struts.ui.theme" value="simple" />
 
     <include file="example.xml"/>
+    <include file="db.xml"/>
 
     <package name="default" namespace="/" extends="struts-default">
 

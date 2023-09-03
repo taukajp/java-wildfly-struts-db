@@ -54,12 +54,26 @@
         "java.configuration.updateBuildConfiguration": "automatic",
         "[java]": {
           "editor.tabSize": 4
-        }
+        },
+        "sqltools.connections": [
+          {
+            "name": "PostgreSQL Database",
+            "driver": "PostgreSQL",
+            "server": "db-postgres",
+            "port": 5432,
+            "database": "myappdb",
+            "username": "docker",
+            "password": "",
+            "previewLimit": 50
+          }
+        ]
       },
       // Add the IDs of extensions you want installed when the container is created.
       "extensions": [
         "vscjava.vscode-java-pack",
-        "redhat.vscode-server-connector"
+        "redhat.vscode-server-connector",
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-pg"
       ]
     }
   }

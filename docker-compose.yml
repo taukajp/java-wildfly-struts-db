@@ -12,9 +12,30 @@ services:
         VARIANT: "${VARIANT:-11-bullseye}"
         APP_NAME: ${APP_NAME:-myapp}
         WILDFLY_VER: "${WILDFLY_VER:-23.0.2.Final}"
+        PG_DRIVER_VER: "42.6.0"
 
     volumes:
       - .:/workspaces/${APP_NAME:-myapp}:cached
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
+
+    depends_on:
+      - db-postgres
+
+  db-postgres:
+    image: postgres:${PG_VERSION:-13}
+    restart: unless-stopped
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - .devcontainer/postgres/dbscript:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: postgres
+      # POSTGRES_PASSWORD: postgres
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: postgres
+      LANG: "C.UTF-8"
+      TZ: "Asia/Tokyo"
+
+volumes:
+  postgres-data: null
