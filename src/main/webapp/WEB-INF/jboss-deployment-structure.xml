@@ -4,5 +4,8 @@
     <exclusions>
       <module name="org.apache.logging.log4j.api"/>
     </exclusions>
+    <dependencies>
+      <module name="org.postgresql"/>
+    </dependencies>
   </deployment>
 </jboss-deployment-structure>
