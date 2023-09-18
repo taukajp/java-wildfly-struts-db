@@ -13,6 +13,7 @@ ARG SERVERS_DIR=/home/vscode/.rsp/redhat-server-connector/runtimes/installations
 ARG WILDFLY_VER=23.0.2.Final
 ARG RSP_SERVERS_DIR=/home/vscode/.rsp/redhat-server-connector/servers
 ARG PG_DRIVER_VER=42.6.0
+ARG MS_DRIVER_VER=8.1.0
 
 ENV LANG=C.UTF-8 \
     TZ=Asia/Tokyo
@@ -22,6 +23,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
     # Install packages
     postgresql-client \
+    default-mysql-client \
     # Clean up
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
@@ -38,6 +40,10 @@ RUN echo "myadmin=ccf3a3beccc44c0369f1612a9e849695" >> ${SERVERS_DIR}/wildfly-${
 RUN mkdir -p ${SERVERS_DIR}/wildfly-${WILDFLY_VER}/modules/system/layers/base/org/postgresql/main \
     && curl -sL https://repo1.maven.org/maven2/org/postgresql/postgresql/${PG_DRIVER_VER}/postgresql-${PG_DRIVER_VER}.jar -o ${SERVERS_DIR}/wildfly-${WILDFLY_VER}/modules/system/layers/base/org/postgresql/main/postgresql-${PG_DRIVER_VER}.jar
 COPY --chown=vscode .devcontainer/postgres/module.xml ${SERVERS_DIR}/wildfly-${WILDFLY_VER}/modules/system/layers/base/org/postgresql/main
+
+RUN mkdir -p ${SERVERS_DIR}/wildfly-${WILDFLY_VER}/modules/system/layers/base/com/mysql/main
+# COPY --chown=vscode .devcontainer/mysql/mysql-connector-j-${MS_DRIVER_VER}.jar ${SERVERS_DIR}/wildfly-${WILDFLY_VER}/modules/system/layers/base/com/mysql/main
+COPY --chown=vscode .devcontainer/mysql/module.xml ${SERVERS_DIR}/wildfly-${WILDFLY_VER}/modules/system/layers/base/com/mysql/main
 
 # Add Driver & Datasource
 # RUN sed -i -e '/driver name="h2"/e cat .devcontainer/pg_driver.part' -e '/jndi-name="java:jboss\/datasources\/ExampleDS"/e cat .devcontainer/pg_datasource.part' \

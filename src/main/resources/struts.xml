@@ -10,6 +10,7 @@
     <include file="example.xml"/>
     <include file="db.xml"/>
     <include file="db2.xml"/>
+    <include file="db3.xml"/>
 
     <package name="default" namespace="/" extends="struts-default">
 

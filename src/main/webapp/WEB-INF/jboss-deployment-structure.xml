@@ -6,6 +6,7 @@
     </exclusions>
     <dependencies>
       <module name="org.postgresql"/>
+      <module name="com.mysql"/>
     </dependencies>
   </deployment>
 </jboss-deployment-structure>

@@ -13,6 +13,7 @@ services:
         APP_NAME: ${APP_NAME:-myapp}
         WILDFLY_VER: "${WILDFLY_VER:-23.0.2.Final}"
         PG_DRIVER_VER: "42.6.0"
+        MS_DRIVER_VER: "8.1.0"
 
     volumes:
       - .:/workspaces/${APP_NAME:-myapp}:cached
@@ -22,6 +23,7 @@ services:
 
     depends_on:
       - db-postgres
+      - db-mysql
 
   db-postgres:
     image: postgres:${PG_VERSION:-13}
@@ -37,5 +39,19 @@ services:
       LANG: "C.UTF-8"
       TZ: "Asia/Tokyo"
 
+  db-mysql:
+    image: mysql:${MYSQL_VERSION:-8}
+    restart: unless-stopped
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - .devcontainer/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - .devcontainer/mysql/dbscript:/docker-entrypoint-initdb.d
+    environment:
+      # MYSQL_ROOT_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      LANG: "C.UTF-8"
+      TZ: "Asia/Tokyo"
+
 volumes:
   postgres-data: null
+  mysql-data: null

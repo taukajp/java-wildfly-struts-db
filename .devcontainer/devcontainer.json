@@ -65,6 +65,20 @@
             "username": "docker",
             "password": "",
             "previewLimit": 50
+          },
+          {
+            "name": "MySQL Database",
+            "driver": "MySQL",
+            "server": "db-mysql",
+            "port": 3306,
+            "database": "myappdb",
+            "username": "docker",
+            "password": "",
+            "previewLimit": 50,
+            "mysqlOptions": {
+              "authProtocol": "default",
+              "enableSsl": "Disabled"
+            }
           }
         ]
       },
@@ -73,7 +87,8 @@
         "vscjava.vscode-java-pack",
         "redhat.vscode-server-connector",
         "mtxr.sqltools",
-        "mtxr.sqltools-driver-pg"
+        "mtxr.sqltools-driver-pg",
+        "mtxr.sqltools-driver-mysql"
       ]
     }
   }
