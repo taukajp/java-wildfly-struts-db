@@ -164,6 +164,30 @@ $ mkdir -p com/mysql/main
 </module>
 ```
 
+#### Oracleの場合
+
+`[jboss.home.dir]/modules/system/layers/base/`に`com/oracle/main`ディレクトリを作成する。
+
+```sh
+$ cd [jboss.home.dir]/modules/system/layers/base
+$ mkdir -p com/oracle/main
+```
+
+作成したディレクトリに、JDBCドライバー`ojdbc11-23.3.0.23.09.jar`と`module.xml`を配置する。`module.xml`は以下を記述する。
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<module name="com.oracle" xmlns="urn:jboss:module:1.9">
+    <resources>
+        <resource-root path="ojdbc11-23.3.0.23.09.jar"/>
+    </resources>
+    <dependencies>
+        <module name="javax.api"/>
+        <module name="javax.transaction.api"/>
+    </dependencies>
+</module>
+```
+
 ### JDBCドライバとデータソースの登録
 
 `[jboss.home.dir]/standalone/configuration/standalone.xml`を以下の通り編集する。
@@ -238,6 +262,41 @@ $ mkdir -p com/mysql/main
                 <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.mysql.MySQLExceptionSorter"/>
             </validation>
         </xa-datasource>
+        <datasource jndi-name="java:/OracleDS" pool-name="OracleDS" enabled="true" use-java-context="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
+            <connection-url>jdbc:oracle:thin:@192.168.0.21:1521/xepdb1</connection-url>
+            <driver-class>oracle.jdbc.driver.OracleDriver</driver-class>
+            <driver>oracle</driver>
+            <security>
+                <user-name>docker</user-name>
+                <password>password</password>
+            </security>
+            <validation>
+                <check-valid-connection-sql>select 1 from dual</check-valid-connection-sql>
+                <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleValidConnectionChecker"/>
+                <validate-on-match>true</validate-on-match>
+                <stale-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleStaleConnectionChecker"></stale-connection-checker>
+                <background-validation>false</background-validation>
+                <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleExceptionSorter"/>
+            </validation>
+        </datasource>
+        <xa-datasource jndi-name="java:/OracleXADS" pool-name="OracleXADS" enabled="true" use-java-context="true" statistics-enabled="${wildfly.datasources.statistics-enabled:${wildfly.statistics-enabled:false}}">
+            <xa-datasource-property name="URL">jdbc:oracle:thin:@192.168.0.21:1521/xepdb1</xa-datasource-property>
+            <xa-datasource-property name="User">docker</xa-datasource-property>
+            <xa-datasource-property name="Password">password</xa-datasource-property>
+            <xa-pool>
+                <is-same-rm-override>false</is-same-rm-override>
+                <no-tx-separate-pools />
+            </xa-pool>
+            <driver>oracle</driver>
+            <validation>
+                <check-valid-connection-sql>select 1 from dual</check-valid-connection-sql>
+                <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleValidConnectionChecker"/>
+                <validate-on-match>true</validate-on-match>
+                <stale-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleStaleConnectionChecker"></stale-connection-checker>
+                <background-validation>false</background-validation>
+                <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.oracle.OracleExceptionSorter"/>
+            </validation>
+        </xa-datasource>
         <drivers>
             ...
             <driver name="postgresql" module="org.postgresql">
@@ -245,6 +304,9 @@ $ mkdir -p com/mysql/main
             </driver>
             <driver name="mysql" module="com.mysql">
                 <xa-datasource-class>com.mysql.cj.jdbc.MysqlXADataSource</xa-datasource-class>
+            </driver>
+            <driver name="oracle" module="com.oracle">
+                <xa-datasource-class>oracle.jdbc.xa.client.OracleXADataSource</xa-datasource-class>
             </driver>
         </drivers>
     </datasources>
